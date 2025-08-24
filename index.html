@@ -27,100 +27,127 @@
     .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#0f2b4b;border:1px solid #275b95;color:#98d3ff;font-weight:600}
     .copy{font-size:12px;margin-left:auto}
     .footer{margin-top:28px;color:#88a2c2}
+    
+    /* Social and Token Styles */
+    .social-links{text-align:center;margin-bottom:20px}
+    .twitter-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:25px;font-weight:600;transition:all 0.2s}
+    .twitter-btn:hover{background:#1a91da;transform:translateY(-1px)}
+    .twitter-btn svg{width:18px;height:18px}
+    
+    .token-info{text-align:center;background:var(--panel);border:1px solid #1e2a55;border-radius:14px;padding:20px;margin-top:20px}
+    .token-symbol{font-size:24px;font-weight:700;color:var(--accent);margin-bottom:16px}
+    .token-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .buy-btn{background:#52d273 !important;border-color:#3a9d5a !important;color:#fff !important}
+    .buy-btn:hover{border-color:#2d7a45 !important}
+    .ca-btn{text-decoration:none;display:inline-block}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>Morse × LLM 一页 DEMO & 提示词套装 <span class="pill">离线前端</span></h1>
-    <p class="muted">把摩斯码当作另一种 I/O：文本 ↔ 摩斯（.-/）↔ 嘀嗒音；并提供即用的 System/Assistant/User 提示词模板（中英双语）。</p>
+    <h1>Morse × LLM Demo & Prompt Kit <span class="pill">Offline Frontend</span></h1>
+    <p class="muted">Use Morse code as another I/O: Text ↔ Morse (.-/) ↔ Audio beeps; with ready-to-use System/Assistant/User prompt templates.</p>
 
     <div class="grid cols-2">
       <!-- 编解码区 -->
       <div class="card">
-        <h2>① 文本 ⇄ 摩斯（. / - / /）</h2>
+        <h2>① Text ⇄ Morse (. / - / /)</h2>
         <div class="row">
-          <label class="muted small">字母表：A–Z, 0–9, 常见标点（.,?!/@-:） ；词间用 <kbd>/</kbd> 分隔</label>
+          <label class="muted small">Alphabet: A–Z, 0–9, Common punctuation (.,?!/@-:) ; Words separated by <kbd>/</kbd></label>
         </div>
         <div class="grid cols-2">
           <div>
-            <label>输入文本 Text</label>
+            <label>Input Text</label>
             <textarea id="txtIn" placeholder="Hello LLM"></textarea>
             <div class="row" style="margin-top:8px">
-              <button class="btn primary" id="btnText2Morse">文本 → 摩斯</button>
-              <button class="btn" id="btnClearText">清空</button>
+              <button class="btn primary" id="btnText2Morse">Text → Morse</button>
+              <button class="btn" id="btnClearText">Clear</button>
             </div>
           </div>
           <div>
-            <label>输入摩斯 Morse</label>
+            <label>Input Morse</label>
             <textarea id="morseIn" class="mono" placeholder=".... . .-.. .-.. --- / .-.. .-.. --"></textarea>
             <div class="row" style="margin-top:8px">
-              <button class="btn primary" id="btnMorse2Text">摩斯 → 文本</button>
-              <button class="btn" id="btnClearMorse">清空</button>
+              <button class="btn primary" id="btnMorse2Text">Morse → Text</button>
+              <button class="btn" id="btnClearMorse">Clear</button>
             </div>
           </div>
         </div>
-        <h2>② 播放嘀嗒音（WebAudio）</h2>
+        <h2>② Audio Playback (WebAudio)</h2>
         <div class="row">
-          <label>频率 Hz</label>
+          <label>Frequency Hz</label>
           <input id="freq" type="number" value="700" min="200" max="1500" style="width:120px">
-          <label>单位时长 ms（WPM 相关）</label>
+          <label>Unit Duration ms (WPM related)</label>
           <input id="unit" type="number" value="80" min="30" max="300" style="width:140px">
         </div>
         <div class="row" style="margin-top:8px">
-          <button class="btn good" id="btnPlayMorse">播放当前摩斯</button>
-          <button class="btn" id="btnStop">停止</button>
-          <span class="muted small">规则：<kbd>.</kbd>=1 单位，<kbd>-</kbd>=3 单位；符号间隔 1，字母间隔 3，词间隔 7。</span>
+          <button class="btn good" id="btnPlayMorse">Play Current Morse</button>
+          <button class="btn" id="btnStop">Stop</button>
+          <span class="muted small">Rules: <kbd>.</kbd>=1 unit, <kbd>-</kbd>=3 units; Symbol gap 1, Letter gap 3, Word gap 7.</span>
         </div>
       </div>
 
       <!-- 提示词区 -->
       <div class="card">
         <div class="row">
-          <h2 style="margin:0">提示词套装（可复制）</h2>
-          <button class="btn copy" data-copy="sys">复制 System</button>
+          <h2 style="margin:0">Prompt Kit (Copyable)</h2>
+          <button class="btn copy" data-copy="sys">Copy System</button>
         </div>
         <textarea id="sys" class="mono small" style="min-height:220px"></textarea>
 
         <div class="row" style="margin-top:10px">
-          <button class="btn copy" data-copy="assistant">复制 Assistant 模板</button>
-          <button class="btn copy" data-copy="user">复制 User 示例</button>
+          <button class="btn copy" data-copy="assistant">Copy Assistant Template</button>
+          <button class="btn copy" data-copy="user">Copy User Example</button>
         </div>
         <textarea id="assistant" class="mono small" style="min-height:120px"></textarea>
         <textarea id="user" class="mono small" style="min-height:100px"></textarea>
 
-        <h2>快速集成说明</h2>
+        <h2>Quick Integration Guide</h2>
         <ul class="small muted">
-          <li>前端把 <kbd>MORSE:</kbd> 开头的串译成文本，再丢给 LLM；LLM 回复里含 <kbd>MORSE:</kbd> 字段，可直接用于本页播放器。</li>
-          <li>如要接入你自有后端/机器人，只需传输纯文本；在边缘/弱网场景可只传 <kbd>.-/</kbd> 字符。</li>
+          <li>Frontend converts strings starting with <kbd>MORSE:</kbd> to text, then sends to LLM; LLM responses with <kbd>MORSE:</kbd> field can be used directly in this page's player.</li>
+          <li>To integrate with your own backend/bot, just transmit plain text; in edge/weak network scenarios, you can only transmit <kbd>.-/</kbd> characters.</li>
         </ul>
       </div>
     </div>
 
-    <!-- 开发者工具 -->
+    <!-- Developer Tools -->
     <div class="card" style="margin-top:16px">
-      <h2>开发者工具 / Dev Tools</h2>
+      <h2>Developer Tools</h2>
       <div class="grid cols-2">
         <div>
-          <label>摩斯输出（可编辑）</label>
-          <textarea id="morseOut" class="mono" placeholder="转换结果会出现在这里"></textarea>
+          <label>Morse Output (Editable)</label>
+          <textarea id="morseOut" class="mono" placeholder="Conversion results will appear here"></textarea>
           <div class="row" style="margin-top:8px">
-            <button class="btn" id="btnCopyMorse">复制摩斯</button>
-            <button class="btn" id="btnPlayOut">播放输出</button>
+            <button class="btn" id="btnCopyMorse">Copy Morse</button>
+            <button class="btn" id="btnPlayOut">Play Output</button>
           </div>
         </div>
         <div>
-          <label>文本输出（可编辑）</label>
-          <textarea id="txtOut" placeholder="转换结果会出现在这里"></textarea>
+          <label>Text Output (Editable)</label>
+          <textarea id="txtOut" placeholder="Conversion results will appear here"></textarea>
           <div class="row" style="margin-top:8px">
-            <button class="btn" id="btnCopyText">复制文本</button>
-            <button class="btn" id="btnToMorse">转为摩斯</button>
-          </div>
+            <button class="btn" id="btnCopyText">Copy Text</button>
+            <button class="btn" id="btnToMorse">Convert to Morse</button>
         </div>
       </div>
     </div>
 
     <div class="footer">
-      <p>Morse × LLM Demo - 离线前端演示 | 支持现代浏览器 WebAudio API</p>
+      <div class="social-links">
+        <a href="https://x.com/Morse_LLM" target="_blank" class="twitter-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          @Morse_LLM
+        </a>
+      </div>
+      
+      <div class="token-info">
+        <div class="token-symbol">$MorseLLM</div>
+        <div class="token-actions">
+          <button class="btn primary buy-btn">Buy $MorseLLM</button>
+          <a href="#" class="btn good ca-btn">View CA</a>
+        </div>
+      </div>
     </div>
   </div>
 

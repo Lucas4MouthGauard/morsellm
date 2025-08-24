@@ -85,9 +85,9 @@ class MorseCode {
         const targetId = btn.getAttribute('data-copy');
         const text = document.getElementById(targetId).value;
         this.copyToClipboard(text);
-        btn.textContent = '已复制!';
-        setTimeout(() => btn.textContent = btn.getAttribute('data-copy') === 'sys' ? '复制 System' : 
-          btn.getAttribute('data-copy') === 'assistant' ? '复制 Assistant 模板' : '复制 User 示例', 1000);
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = btn.getAttribute('data-copy') === 'sys' ? 'Copy System' : 
+          btn.getAttribute('data-copy') === 'assistant' ? 'Copy Assistant Template' : 'Copy User Example', 1000);
       });
     });
     
@@ -234,27 +234,27 @@ class MorseCode {
   }
   
   loadPromptTemplates() {
-    // System 提示词
-    document.getElementById('sys').value = `你是一个摩斯码专家助手。请遵循以下规则：
+    // System prompt
+    document.getElementById('sys').value = `You are a Morse code expert assistant. Please follow these rules:
 
-1. 当用户输入以 "MORSE:" 开头的摩斯码时，先将其转换为可读文本，然后基于该文本进行对话
-2. 在回复中，如果涉及摩斯码相关内容，请使用 "MORSE: [摩斯码]" 格式输出
-3. 摩斯码格式：字母间用空格分隔，词间用 "/" 分隔
-4. 支持 A-Z, 0-9, 常见标点符号的摩斯码转换
+1. When users input Morse code starting with "MORSE:", first convert it to readable text, then have a conversation based on that text
+2. In your responses, if involving Morse code related content, use "MORSE: [Morse code]" format
+3. Morse code format: letters separated by spaces, words separated by "/"
+4. Supports A-Z, 0-9, common punctuation symbols in Morse code
 
-示例：
-用户: "MORSE: .... . .-.. .-.. --- / .-- --- .-. .-.. -.."
-助手: "收到摩斯码：HELLO WORLD
+Example:
+User: "MORSE: .... . .-.. .-.. --- / .-- --- .-. .-.. -.."
+Assistant: "Received Morse code: HELLO WORLD
 MORSE: .... . .-.. .-.. --- / .-- --- .-. .-.. -.."`;
 
-    // Assistant 模板
-    document.getElementById('assistant').value = `MORSE: [摩斯码内容]
+    // Assistant template
+    document.getElementById('assistant').value = `MORSE: [Morse code content]
 
-[你的回复内容]
+[Your response content]
 
-如果需要继续用摩斯码交流，请使用上述格式。`;
+If you need to continue Morse code communication, use the above format.`;
 
-    // User 示例
+    // User example
     document.getElementById('user').value = `MORSE: .... . .-.. .-.. --- / .-.. .-.. --`;
   }
 }
