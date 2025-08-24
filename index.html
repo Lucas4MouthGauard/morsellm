@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Morse × LLM Demo & Prompt Kit</title>
+  <style>
+    :root{--bg:#0b1020;--panel:#121a36;--accent:#6ae3ff;--muted:#9fb3c8;--good:#52d273;--bad:#ff6b6b}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:#e6eef7;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
+    .wrap{max-width:1080px;margin:24px auto;padding:20px}
+    h1{font-size:28px;margin:0 0 10px} h2{font-size:20px;margin:24px 0 8px}
+    .grid{display:grid;gap:16px}
+    .cols-2{grid-template-columns:1fr 1fr}
+    .card{background:var(--panel);border:1px solid #1e2a55;border-radius:14px;padding:14px}
+    textarea,input,select{width:100%;background:#0c1430;color:#d9e6ff;border:1px solid #243160;border-radius:10px;padding:10px;font-size:14px}
+    textarea{min-height:120px;line-height:1.5;resize:vertical}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .btn{appearance:none;border:1px solid #2b3a70;background:#18224b;color:#e9f3ff;border-radius:10px;padding:10px 12px;cursor:pointer;font-weight:600}
+    .btn:hover{border-color:#3f58a7}
+    .btn.primary{background:#123b4a;border-color:#2a7c8c;color:#bff7ff}
+    .btn.good{background:#09361a;border-color:#126432;color:#b9ffd1}
+    .btn.bad{background:#3a1212;border-color:#7b2a2a;color:#ffd6d6}
+    code,kbd{background:#0f1632;border:1px solid #2a3c7a;color:#b8d4ff;padding:2px 6px;border-radius:6px}
+    .muted{color:var(--muted)}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+    .small{font-size:12px}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#0f2b4b;border:1px solid #275b95;color:#98d3ff;font-weight:600}
+    .copy{font-size:12px;margin-left:auto}
+    .footer{margin-top:28px;color:#88a2c2}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Morse × LLM 一页 DEMO & 提示词套装 <span class="pill">离线前端</span></h1>
+    <p class="muted">把摩斯码当作另一种 I/O：文本 ↔ 摩斯（.-/）↔ 嘀嗒音；并提供即用的 System/Assistant/User 提示词模板（中英双语）。</p>
+
+    <div class="grid cols-2">
+      <!-- 编解码区 -->
+      <div class="card">
+        <h2>① 文本 ⇄ 摩斯（. / - / /）</h2>
+        <div class="row">
+          <label class="muted small">字母表：A–Z, 0–9, 常见标点（.,?!/@-:） ；词间用 <kbd>/</kbd> 分隔</label>
+        </div>
+        <div class="grid cols-2">
+          <div>
+            <label>输入文本 Text</label>
+            <textarea id="txtIn" placeholder="Hello LLM"></textarea>
+            <div class="row" style="margin-top:8px">
+              <button class="btn primary" id="btnText2Morse">文本 → 摩斯</button>
+              <button class="btn" id="btnClearText">清空</button>
+            </div>
+          </div>
+          <div>
+            <label>输入摩斯 Morse</label>
+            <textarea id="morseIn" class="mono" placeholder=".... . .-.. .-.. --- / .-.. .-.. --"></textarea>
+            <div class="row" style="margin-top:8px">
+              <button class="btn primary" id="btnMorse2Text">摩斯 → 文本</button>
+              <button class="btn" id="btnClearMorse">清空</button>
+            </div>
+          </div>
+        </div>
+        <h2>② 播放嘀嗒音（WebAudio）</h2>
+        <div class="row">
+          <label>频率 Hz</label>
+          <input id="freq" type="number" value="700" min="200" max="1500" style="width:120px">
+          <label>单位时长 ms（WPM 相关）</label>
+          <input id="unit" type="number" value="80" min="30" max="300" style="width:140px">
+        </div>
+        <div class="row" style="margin-top:8px">
+          <button class="btn good" id="btnPlayMorse">播放当前摩斯</button>
+          <button class="btn" id="btnStop">停止</button>
+          <span class="muted small">规则：<kbd>.</kbd>=1 单位，<kbd>-</kbd>=3 单位；符号间隔 1，字母间隔 3，词间隔 7。</span>
+        </div>
+      </div>
+
+      <!-- 提示词区 -->
+      <div class="card">
+        <div class="row">
+          <h2 style="margin:0">提示词套装（可复制）</h2>
+          <button class="btn copy" data-copy="sys">复制 System</button>
+        </div>
+        <textarea id="sys" class="mono small" style="min-height:220px"></textarea>
+
+        <div class="row" style="margin-top:10px">
+          <button class="btn copy" data-copy="assistant">复制 Assistant 模板</button>
+          <button class="btn copy" data-copy="user">复制 User 示例</button>
+        </div>
+        <textarea id="assistant" class="mono small" style="min-height:120px"></textarea>
+        <textarea id="user" class="mono small" style="min-height:100px"></textarea>
+
+        <h2>快速集成说明</h2>
+        <ul class="small muted">
+          <li>前端把 <kbd>MORSE:</kbd> 开头的串译成文本，再丢给 LLM；LLM 回复里含 <kbd>MORSE:</kbd> 字段，可直接用于本页播放器。</li>
+          <li>如要接入你自有后端/机器人，只需传输纯文本；在边缘/弱网场景可只传 <kbd>.-/</kbd> 字符。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 开发者工具 -->
+    <div class="card" style="margin-top:16px">
+      <h2>开发者工具 / Dev Tools</h2>
+      <div class="grid cols-2">
+        <div>
+          <label>摩斯输出（可编辑）</label>
+          <textarea id="morseOut" class="mono" placeholder="转换结果会出现在这里"></textarea>
+          <div class="row" style="margin-top:8px">
+            <button class="btn" id="btnCopyMorse">复制摩斯</button>
+            <button class="btn" id="btnPlayOut">播放输出</button>
+          </div>
+        </div>
+        <div>
+          <label>文本输出（可编辑）</label>
+          <textarea id="txtOut" placeholder="转换结果会出现在这里"></textarea>
+          <div class="row" style="margin-top:8px">
+            <button class="btn" id="btnCopyText">复制文本</button>
+            <button class="btn" id="btnToMorse">转为摩斯</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Morse × LLM Demo - 离线前端演示 | 支持现代浏览器 WebAudio API</p>
+    </div>
+  </div>
+
+  <script src="morse.js"></script>
+</body>
+</html>
