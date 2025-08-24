@@ -25,6 +25,7 @@ class MorseCode {
     this.initAudio();
     this.initEventListeners();
     this.loadPromptTemplates();
+    this.initRetroStation();
   }
   
   initAudio() {
@@ -256,6 +257,168 @@ If you need to continue Morse code communication, use the above format.`;
 
     // User example
     document.getElementById('user').value = `MORSE: .... . .-.. .-.. --- / .-.. .-.. --`;
+  }
+  
+  initRetroStation() {
+    // Geek Challenge: Load the LLM
+    document.getElementById('btnCheckChallenge').addEventListener('click', () => {
+      const input = document.getElementById('challengeInput').value.trim();
+      const expectedMorse = '.-.. --- .- -.. / .-.. .-.. --'; // LOAD LLM
+      
+      if (input === expectedMorse) {
+        document.getElementById('challengeResult').classList.remove('hidden');
+        this.playSuccessSound();
+        this.updateStationStatus('ACTIVE');
+        
+        // Auto-scroll to contract address
+        setTimeout(() => {
+          document.getElementById('challengeResult').scrollIntoView({ behavior: 'smooth' });
+        }, 500);
+      } else {
+        this.showChallengeError();
+      }
+    });
+    
+    // Survival Mode
+    document.getElementById('btnEmergencySignal').addEventListener('click', () => {
+      this.sendEmergencySignal();
+    });
+    
+    document.getElementById('btnSurvivalTest').addEventListener('click', () => {
+      this.testSurvivalMode();
+    });
+    
+    // Auto-complete challenge input with placeholder
+    document.getElementById('challengeInput').addEventListener('focus', () => {
+      if (!document.getElementById('challengeInput').value) {
+        document.getElementById('challengeInput').placeholder = '.-.. --- .- -.. / .-.. .-.. --';
+      }
+    });
+  }
+  
+  playSuccessSound() {
+    if (!this.audioContext) return;
+    
+    // Play a success melody
+    const freq = 800;
+    const now = this.audioContext.currentTime;
+    
+    // Play a little victory tune
+    this.playTone(freq, now, 0.1);
+    this.playTone(freq * 1.25, now + 0.15, 0.1);
+    this.playTone(freq * 1.5, now + 0.3, 0.2);
+  }
+  
+  updateStationStatus(status) {
+    const statusText = document.querySelector('.status-text');
+    const statusLight = document.querySelector('.status-light');
+    
+    statusText.textContent = status;
+    
+    if (status === 'ACTIVE') {
+      statusLight.style.background = '#52d273';
+      statusLight.style.animation = 'pulse 1s ease-in-out infinite';
+    } else if (status === 'STANDBY') {
+      statusLight.style.background = '#52d273';
+      statusLight.style.animation = 'pulse 2s ease-in-out infinite';
+    }
+  }
+  
+  showChallengeError() {
+    const input = document.getElementById('challengeInput');
+    input.style.borderColor = '#ff6b6b';
+    input.style.animation = 'shake 0.5s ease-in-out';
+    
+    setTimeout(() => {
+      input.style.borderColor = '#243160';
+      input.style.animation = '';
+    }, 500);
+  }
+  
+  sendEmergencySignal() {
+    const survivalStatus = document.getElementById('survivalStatus');
+    const survivalText = document.getElementById('survivalText');
+    
+    const messages = [
+      "Emergency signal transmitted via Morse × LLM",
+      "SOS: Intelligence overload detected, switching to minimal interface",
+      "Distress call: When AI talks too much, we need dots and dashes",
+      "Mayday: Even with primitive signals, wisdom prevails"
+    ];
+    
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    survivalText.textContent = randomMessage;
+    
+    survivalStatus.classList.remove('hidden');
+    
+    // Play emergency signal
+    this.playEmergencySignal();
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+      survivalStatus.classList.add('hidden');
+    }, 5000);
+  }
+  
+  testSurvivalMode() {
+    const survivalStatus = document.getElementById('survivalStatus');
+    const survivalText = document.getElementById('survivalText');
+    
+    const testMessages = [
+      "Survival mode: Offline intelligence transmission active",
+      "Grid down scenario: Morse × LLM operational",
+      "Apocalypse test: Primitive signals still work",
+      "Dark age simulation: Even with minimal tech, AI responds"
+    ];
+    
+    const randomMessage = testMessages[Math.floor(Math.random() * testMessages.length)];
+    survivalText.textContent = randomMessage;
+    
+    survivalStatus.classList.remove('hidden');
+    
+    // Play test signal
+    this.playTestSignal();
+    
+    // Auto-hide after 4 seconds
+    setTimeout(() => {
+      survivalStatus.classList.add('hidden');
+    }, 4000);
+  }
+  
+  playEmergencySignal() {
+    if (!this.audioContext) return;
+    
+    // Play SOS in Morse: ... --- ...
+    const now = this.audioContext.currentTime;
+    const unit = 0.1;
+    
+    // S: ...
+    this.playTone(600, now, unit);
+    this.playTone(600, now + unit * 2, unit);
+    this.playTone(600, now + unit * 3, unit);
+    
+    // O: ---
+    this.playTone(600, now + unit * 5, unit * 3);
+    this.playTone(600, now + unit * 9, unit * 3);
+    this.playTone(600, now + unit * 13, unit * 3);
+    
+    // S: ...
+    this.playTone(600, now + unit * 17, unit);
+    this.playTone(600, now + unit * 19, unit);
+    this.playTone(600, now + unit * 21, unit);
+  }
+  
+  playTestSignal() {
+    if (!this.audioContext) return;
+    
+    // Play a test pattern
+    const now = this.audioContext.currentTime;
+    const unit = 0.08;
+    
+    this.playTone(700, now, unit);
+    this.playTone(700, now + unit * 2, unit);
+    this.playTone(700, now + unit * 4, unit * 2);
+    this.playTone(700, now + unit * 7, unit);
   }
 }
 

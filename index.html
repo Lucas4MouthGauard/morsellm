@@ -40,12 +40,114 @@
     .buy-btn{background:#52d273 !important;border-color:#3a9d5a !important;color:#fff !important}
     .buy-btn:hover{border-color:#2d7a45 !important}
     .ca-btn{text-decoration:none;display:inline-block}
+    
+    /* Manifesto Styles */
+    .manifesto{margin:24px 0;background:linear-gradient(135deg,var(--panel) 0%,#1a2a4a 100%);border:1px solid #2a4a7a;border-radius:16px;padding:24px;position:relative;overflow:hidden}
+    .manifesto::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),#52d273,var(--accent));animation:scan 3s ease-in-out infinite}
+    @keyframes scan{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
+    .manifesto-content{position:relative;z-index:1}
+    .manifesto h2{color:var(--accent);margin:0 0 16px;font-size:22px;text-align:center}
+    .manifesto-text p{margin:8px 0;line-height:1.6}
+    .manifesto-quote{margin:20px 0;text-align:center}
+    .manifesto-quote blockquote{font-style:italic;color:var(--accent);font-size:18px;margin:0;padding:16px;border-left:4px solid var(--accent);background:rgba(106,227,255,0.1);border-radius:0 8px 8px 0}
+    .dark-humor{color:#ff6b6b;font-style:italic;margin:4px 0;text-align:center}
+    
+    /* Retro Station Styles */
+    .retro-station{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);border:2px solid #4a4a6a;position:relative}
+    .retro-station::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%234a4a6a" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');opacity:0.1}
+    .station-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .station-status{display:flex;align-items:center;gap:8px}
+    .status-light{width:12px;height:12px;border-radius:50%;background:#52d273;animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.7;transform:scale(1.1)}}
+    .status-text{font-family:monospace;color:var(--accent);font-weight:600}
+    
+    .morse-challenge{margin:20px 0;padding:16px;background:rgba(106,227,255,0.05);border-radius:8px;border:1px solid rgba(106,227,255,0.2)}
+    .challenge-input{display:flex;gap:12px;margin:12px 0;align-items:center}
+    .challenge-input input{flex:1;max-width:300px}
+    .challenge-result{transition:all 0.3s ease}
+    .challenge-result.hidden{display:none}
+    .success-message{background:#09361a;border:1px solid #126432;border-radius:8px;padding:16px;color:#b9ffd1}
+    .contract-address{background:#0f1632;border:1px solid #2a3c7a;color:#b8d4ff;padding:4px 8px;border-radius:4px;font-family:monospace}
+    
+    .survival-mode{margin:20px 0;padding:16px;background:rgba(255,107,107,0.05);border-radius:8px;border:1px solid rgba(255,107,107,0.2)}
+    .survival-actions{display:flex;gap:12px;margin:12px 0;flex-wrap:wrap}
+    .survival-status{transition:all 0.3s ease}
+    .survival-status.hidden{display:none}
+    .status-message{background:#3a1212;border:1px solid #7b2a2a;border-radius:8px;padding:16px;color:#ffd6d6}
+    .radio-wave{animation:wave 1.5s ease-in-out infinite}
+    @keyframes wave{0%,100%{transform:rotate(0deg)}25%{transform:rotate(15deg)}75%{transform:rotate(-15deg)}}
+    
+    /* Animation for challenge error */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Morse × LLM Demo & Prompt Kit <span class="pill">Offline Frontend</span></h1>
-    <p class="muted">Use Morse code as another I/O: Text ↔ Morse (.-/) ↔ Audio beeps; with ready-to-use System/Assistant/User prompt templates.</p>
+      <div class="wrap">
+      <h1>Morse × LLM Demo & Prompt Kit <span class="pill">Offline Frontend</span></h1>
+      <p class="muted">Use Morse code as another I/O: Text ↔ Morse (.-/) ↔ Audio beeps; with ready-to-use System/Assistant/User prompt templates.</p>
+      
+      <!-- Philosophy Manifesto -->
+      <div class="manifesto">
+        <div class="manifesto-content">
+          <h2>🚀 In the Age of Information Overload, Morse Code Returns</h2>
+          <div class="manifesto-text">
+            <p><strong>Past:</strong> Morse was the simplest signal language: dit (.), dah (-), pause.</p>
+            <p><strong>Present:</strong> We use LLMs to decode these dots and dashes, making it the minimal AI input interface.</p>
+            <p><strong>Future:</strong> Even with just a light, a buzzer, or a button, Morse LLM can still converse with you.</p>
+          </div>
+          <div class="manifesto-quote">
+            <blockquote>"Even with just dots and dashes, intelligence emerges."</blockquote>
+          </div>
+          <div class="manifesto-humor">
+            <p class="dark-humor">"When AI talks too much, we only need dots and dashes."</p>
+            <p class="dark-humor">"The most primitive signals, loading the most advanced models."</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Retro Signal Station -->
+      <div class="card retro-station">
+        <div class="station-header">
+          <h2>🏛️ Retro Signal Station</h2>
+          <div class="station-status">
+            <span class="status-light"></span>
+            <span class="status-text">STANDBY</span>
+          </div>
+        </div>
+        <p class="muted">Like Titanic's radio room, this station transmits intelligence through dots and dashes.</p>
+        
+        <div class="morse-challenge">
+          <h3>🎯 Geek Challenge: Load the LLM</h3>
+          <p>Type "LOAD LLM" in Morse to reveal the contract address:</p>
+          <div class="challenge-input">
+            <input type="text" id="challengeInput" class="mono" placeholder=".-.. --- .- -.. / .-.. .-.. --" maxlength="50">
+            <button class="btn primary" id="btnCheckChallenge">Check Challenge</button>
+          </div>
+          <div id="challengeResult" class="challenge-result hidden">
+            <div class="success-message">
+              <span class="checkmark">✅</span> Challenge completed! Contract Address: <code class="contract-address">0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6</code>
+            </div>
+          </div>
+        </div>
+        
+        <div class="survival-mode">
+          <h3>🆘 Survival Mode</h3>
+          <p>Even when the internet is down, Morse × LLM can still transmit wisdom.</p>
+          <div class="survival-actions">
+            <button class="btn good" id="btnEmergencySignal">Send Emergency Signal</button>
+            <button class="btn" id="btnSurvivalTest">Test Survival Mode</button>
+          </div>
+          <div id="survivalStatus" class="survival-status hidden">
+            <div class="status-message">
+              <span class="radio-wave">📡</span> <span id="survivalText">Emergency signal transmitted via Morse × LLM</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <div class="grid cols-2">
       <!-- 编解码区 -->
