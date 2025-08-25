@@ -41,26 +41,6 @@
     .buy-btn:hover{border-color:#2d7a45 !important}
     .ca-btn{text-decoration:none;display:inline-block}
     
-    /* Top Header Styles */
-    .top-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding:16px;background:var(--panel);border:1px solid #1e2a55;border-radius:14px;flex-wrap:wrap;gap:16px}
-    .social-links{display:flex;align-items:center}
-    .twitter-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:25px;font-weight:600;transition:all 0.2s}
-    .twitter-btn:hover{background:#1a91da;transform:translateY(-1px)}
-    .twitter-btn svg{width:18px;height:18px}
-    
-    .token-info-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-    .token-symbol{font-size:20px;font-weight:700;color:var(--accent)}
-    .token-actions{display:flex;gap:8px;flex-wrap:wrap}
-    .buy-btn{background:#52d273 !important;border-color:#3a9d5a !important;color:#fff !important}
-    .buy-btn:hover{border-color:#2d7a45 !important}
-    .ca-btn{text-decoration:none;display:inline-block}
-    
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .top-header{flex-direction:column;text-align:center}
-      .token-info-top{justify-content:center}
-    }
-    
     /* Manifesto Styles */
     .manifesto{margin:24px 0;background:linear-gradient(135deg,var(--panel) 0%,#1a2a4a 100%);border:1px solid #2a4a7a;border-radius:16px;padding:24px;position:relative;overflow:hidden}
     .manifesto::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),#52d273,var(--accent));animation:scan 3s ease-in-out infinite}
@@ -107,26 +87,6 @@
 </head>
 <body>
       <div class="wrap">
-      <!-- Top Social and Token Info -->
-      <div class="top-header">
-        <div class="social-links">
-          <a href="https://x.com/Morse_LLM" target="_blank" class="twitter-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-            @Morse_LLM
-          </a>
-        </div>
-        
-        <div class="token-info-top">
-          <div class="token-symbol">$MorseLLM</div>
-          <div class="token-actions">
-            <button class="btn primary buy-btn">Buy $MorseLLM</button>
-            <a href="#" class="btn good ca-btn">View CA</a>
-          </div>
-        </div>
-      </div>
-      
       <h1>Morse × LLM Demo & Prompt Kit <span class="pill">Offline Frontend</span></h1>
       <p class="muted">Use Morse code as another I/O: Text ↔ Morse (.-/) ↔ Audio beeps; with ready-to-use System/Assistant/User prompt templates.</p>
       
@@ -274,7 +234,22 @@
     </div>
 
     <div class="footer">
-      <p>Morse × LLM Demo - Offline Frontend | Modern Browser WebAudio API Support</p>
+      <div class="social-links">
+        <a href="https://x.com/eniac_loads_llm" target="_blank" class="twitter-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          @eniac_loads_llm
+        </a>
+      </div>
+      
+      <div class="token-info">
+        <div class="token-symbol">$MorseLLM</div>
+        <div class="token-actions">
+          <button class="btn primary buy-btn">Buy $MorseLLM</button>
+          <a href="#" class="btn good ca-btn">View CA</a>
+        </div>
+      </div>
     </div>
   </div>
 
